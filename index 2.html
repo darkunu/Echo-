@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ÉCHO</title>
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#1b2a3a;--mute:#5d6b7a;--line:#d3dae1;--acc:#1f6f78;--acc2:#e9f3f4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1720;--card:#18232f;--ink:#e8eef4;--mute:#97a6b5;--line:#2a3846;--acc:#5fc0c9;--acc2:#16303a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 100px}
+h1,h2{font-family:Georgia,serif;margin:0 0 8px}h1{font-size:2.2rem}h2{font-size:1.4rem}
+.lead,.meta{color:var(--mute)}.meta{font-size:.85rem}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;background:none;border:0;color:var(--mute);font:inherit;font-size:.82rem;padding:8px 2px;border-radius:8px}
+nav button[aria-selected=true]{color:var(--acc);background:var(--acc2);font-weight:600}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:.9rem;color:var(--mute);margin:10px 0 4px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{min-height:90px}
+button.p{background:var(--acc);color:var(--bg);border:0;border-radius:8px;padding:11px 16px;font:inherit;font-weight:600;margin-top:12px}
+button.s{background:none;border:1px solid var(--line);color:var(--mute);border-radius:8px;padding:6px 10px;font:inherit;font-size:.85rem}
+button:disabled{opacity:.5}
+.q{font-family:Georgia,serif;font-size:1.1rem}
+.msg{padding:10px 12px;border-radius:12px;margin:8px 0;max-width:92%}.me{background:var(--acc2);margin-left:auto}.echo{background:var(--card);border:1px solid var(--line)}
+.tag{font-size:.8rem;margin-bottom:4px}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.media img,.media video{max-width:100%;border-radius:8px;margin:6px 0;display:block}.media audio{width:100%;margin:6px 0}
+.price{font-family:Georgia,serif;font-size:1.7rem}.top{border:2px solid var(--acc)}
+.err{color:#c0392b;font-size:.9rem;margin-top:8px}
+ul{padding-left:18px}
+</style>
+</head>
+<body>
+<main>
+<section id="s-auth" class="on">
+<h1>ÉCHO</h1>
+<p class="lead">Laisse ta voix, tes souvenirs et tes messages à ceux que tu aimes.</p>
+<div class="card">
+<label for="a-e">E-mail</label><input id="a-e" type="email" autocomplete="email">
+<label for="a-p">Mot de passe (8 caractères minimum)</label><input id="a-p" type="password" autocomplete="current-password">
+<div class="row"><button class="p" id="a-in">Se connecter</button><button class="p" id="a-up">Créer un compte</button></div>
+<div class="err" id="a-err"></div></div>
+</section>
+
+<section id="s-home">
+<h1>ÉCHO</h1>
+<p class="lead">Ne laisse pas disparaître une personne avec ses souvenirs.</p>
+<div class="card"><h2>Honnêteté</h2>
+<div>🟢 Souvenir authentique, cité tel quel</div><div>🟠 Reconstruction probable</div><div>🔵 Réponse simulée, sans souvenir enregistré</div></div>
+<div class="card"><div class="meta">Connecté : <span id="who"></span></div><button class="s" id="out" style="margin-top:8px">Se déconnecter</button></div>
+</section>
+
+<section id="s-mem">
+<h2>Mes souvenirs</h2>
+<div class="card">
+<label for="m-t">Titre</label><input id="m-t" placeholder="Ma rencontre avec Maman">
+<label for="m-p">Personnes concernées</label><input id="m-p" placeholder="Maman, Lina">
+<label for="m-x">Mon récit</label><textarea id="m-x"></textarea>
+<label for="m-f">Photos, vidéos, musique</label><input id="m-f" type="file" accept="image/*,video/*,audio/*" multiple>
+<button class="p" id="m-add">Enregistrer le souvenir</button><div class="err" id="m-err"></div></div>
+<div id="m-list"></div>
+</section>
+
+<section id="s-cap">
+<h2>Capsules</h2>
+<p class="lead">Un message scellé jusqu'à une date choisie.</p>
+<div class="card">
+<label for="c-to">Pour</label><input id="c-to">
+<label for="c-d">S'ouvre le</label><input id="c-d" type="date">
+<label for="c-x">Message</label><textarea id="c-x"></textarea>
+<button class="p" id="c-add">Sceller la capsule</button><div class="err" id="c-err"></div></div>
+<div id="c-list"></div>
+</section>
+
+<section id="s-chat">
+<h2>Parler à ÉCHO</h2>
+<p class="lead">ÉCHO répond à partir des souvenirs enregistrés, jamais en inventant.</p>
+<div id="chat"></div>
+<div class="row" style="margin-top:12px"><input id="q" placeholder="Raconte-moi ta rencontre avec Maman" aria-label="Question"><button class="p" id="ask" style="flex:0 0 auto;margin:0">Envoyer</button></div>
+</section>
+
+<section id="s-plan">
+<h2>Offres</h2>
+<div class="card"><h2>Découverte</h2><div class="price">0 €</div><ul><li>10 souvenirs, 1 capsule</li></ul></div>
+<div class="card top"><h2>Essentiel</h2><div class="price">7,90 €<span class="meta"> /mois</span></div><ul><li>Souvenirs et capsules illimités</li><li>3 proches autorisés</li></ul></div>
+<div class="card"><h2>Famille</h2><div class="price">14,90 €<span class="meta"> /mois</span></div><ul><li>5 mémoires, 10 proches, export</li></ul></div>
+<div class="card"><h2>Pérennité</h2><div class="price">249 €<span class="meta"> une fois</span></div><ul><li>Conservation garantie 25 ans</li></ul></div>
+<p class="meta">Paiement non branché pour l'instant.</p>
+</section>
+</main>
+<nav id="nav" style="display:none" role="tablist">
+<button data-go="home" aria-selected="true">Accueil</button><button data-go="mem" aria-selected="false">Souvenirs</button><button data-go="cap" aria-selected="false">Capsules</button><button data-go="chat" aria-selected="false">ÉCHO</button><button data-go="plan" aria-selected="false">Offres</button>
+</nav>
+<script>
+const U='https://bsuttqewsvknknhwafpj.supabase.co',K='sb_publishable_K88Uh7sxjNiBJ5689JuNmA_01lyvUVy';
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S=null;try{S=JSON.parse(localStorage.getItem('echo-s'))}catch(e){}
+const setS=s=>{S=s;try{s?localStorage.setItem('echo-s',JSON.stringify(s)):localStorage.removeItem('echo-s')}catch(e){}};
+let D={mem:[],cap:[]};
+
+async function auth(path,body){
+  const r=await fetch(U+'/auth/v1/'+path,{method:'POST',headers:{apikey:K,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.msg||j.error_description||j.message||'Erreur de connexion');
+  return j}
+const keep=j=>{if(j.access_token){setS({a:j.access_token,r:j.refresh_token,u:j.user.id,e:j.user.email});return true}return false};
+async function api(path,opt={},retry=true){
+  const h=Object.assign({apikey:K,Authorization:'Bearer '+S.a},opt.h||{});
+  const r=await fetch(U+path,Object.assign({},opt,{headers:h}));
+  if(r.status===401&&retry){try{keep(await auth('token?grant_type=refresh_token',{refresh_token:S.r}))}catch(e){logout();throw e}return api(path,opt,false)}
+  if(!r.ok){let m='Erreur '+r.status;try{m=(await r.json()).message||m}catch(e){}throw new Error(m)}
+  return r}
+const jget=async p=>(await api(p)).json();
+const jsend=(p,method,body,prefer)=>api(p,{method,body:JSON.stringify(body),h:{'Content-Type':'application/json',Prefer:prefer||'return=representation'}});
+
+function show(n){document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id==='s-'+n));
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.go===n));window.scrollTo(0,0)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.go));
+function logout(){setS(null);D={mem:[],cap:[]};$('#nav').style.display='none';show('auth')}
+$('#out').onclick=logout;
+
+async function enter(){
+  $('#nav').style.display='flex';$('#who').textContent=S.e;show('home');
+  try{await load()}catch(e){alert(e.message)}}
+async function load(){
+  D.mem=await jget('/rest/v1/memories?select=*,media(*)&order=created_at.desc');
+  D.cap=await jget('/rest/v1/capsules?select=*&order=open_on.asc');
+  renderMem();renderCap()}
+async function login(up){
+  const e=$('#a-e').value.trim(),p=$('#a-p').value,err=$('#a-err');err.textContent='';
+  if(!e||p.length<8){err.textContent='E-mail requis et mot de passe de 8 caractères minimum.';return}
+  try{
+    const j=await auth(up?'signup':'token?grant_type=password',{email:e,password:p});
+    if(keep(j))enter();else err.textContent='Compte créé. Confirme ton e-mail puis connecte-toi.';
+  }catch(x){err.textContent=x.message}}
+$('#a-in').onclick=()=>login(false);$('#a-up').onclick=()=>login(true);
+
+async function showMedia(box,list){
+  for(const f of list||[]){try{
+    const r=await api('/storage/v1/object/sign/media/'+f.path,{method:'POST',body:JSON.stringify({expiresIn:3600}),h:{'Content-Type':'application/json'}});
+    const j=await r.json();const url=U+'/storage/v1'+j.signedURL;
+    const e=document.createElement(f.kind==='image'?'img':f.kind);e.src=url;
+    if(f.kind!=='image'){e.controls=true;e.preload='metadata';if(f.kind==='video')e.playsInline=true}
+    box.appendChild(e)}catch(x){}}}
+function renderMem(){
+  const l=$('#m-list');l.innerHTML=D.mem.length?'':'<p class="meta">Aucun souvenir pour l\'instant.</p>';
+  D.mem.forEach(m=>{const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="q">${esc(m.title)}</div><div class="meta">${esc(m.people)}</div><p>${esc(m.body)}</p><div class="media"></div><button class="s">Supprimer</button>`;
+    showMedia(d.querySelector('.media'),m.media);
+    d.querySelector('button').onclick=async()=>{if(!confirm('Supprimer ce souvenir ?'))return;
+      try{const ps=(m.media||[]).map(f=>f.path);
+        if(ps.length)await jsend('/storage/v1/object/media','DELETE',{prefixes:ps});
+        await api('/rest/v1/memories?id=eq.'+m.id,{method:'DELETE'});await load()}catch(x){alert(x.message)}};
+    l.appendChild(d)})}
+$('#m-add').onclick=async()=>{
+  const t=$('#m-t').value.trim(),x=$('#m-x').value.trim(),err=$('#m-err'),btn=$('#m-add');err.textContent='';
+  if(!t||!x){err.textContent='Ajoute un titre et un récit.';return}
+  btn.disabled=true;btn.textContent='Envoi en cours…';
+  try{
+    const r=await jsend('/rest/v1/memories','POST',{title:t,body:x,people:$('#m-p').value.trim()});
+    const mem=(await r.json())[0];
+    for(const file of $('#m-f').files){
+      const kind=['image','video','audio'].find(k=>file.type.startsWith(k));if(!kind)continue;
+      const path=S.u+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+      await api('/storage/v1/object/media/'+path,{method:'POST',body:file,h:{'Content-Type':file.type}});
+      await jsend('/rest/v1/media','POST',{memory_id:mem.id,kind,path},'return=minimal')}
+    ['#m-t','#m-p','#m-x','#m-f'].forEach(s=>$(s).value='');await load()
+  }catch(e){err.textContent=e.message}
+  btn.disabled=false;btn.textContent='Enregistrer le souvenir'};
+
+function renderCap(){
+  const l=$('#c-list'),today=new Date().toISOString().slice(0,10);
+  l.innerHTML=D.cap.length?'':'<p class="meta">Aucune capsule scellée.</p>';
+  D.cap.forEach(c=>{const open=c.open_on&&c.open_on<=today,d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="q">Pour ${esc(c.recipient)}</div><div class="meta">${open?'🔓 Ouverte':'🔒 Scellée'} · ${esc(c.open_on)}</div>`+(open?`<p>${esc(c.body)}</p>`:'<p class="meta">Le message est caché jusqu\'à cette date.</p>')+'<button class="s">Supprimer</button>';
+    d.querySelector('button').onclick=async()=>{try{await api('/rest/v1/capsules?id=eq.'+c.id,{method:'DELETE'});await load()}catch(x){alert(x.message)}};
+    l.appendChild(d)})}
+$('#c-add').onclick=async()=>{
+  const to=$('#c-to').value.trim(),d=$('#c-d').value,x=$('#c-x').value.trim(),err=$('#c-err');err.textContent='';
+  if(!to||!d||!x){err.textContent='Renseigne le destinataire, la date et le message.';return}
+  try{await jsend('/rest/v1/capsules','POST',{recipient:to,open_on:d,body:x},'return=minimal');['#c-to','#c-d','#c-x'].forEach(s=>$(s).value='');await load()}
+  catch(e){err.textContent=e.message}};
+
+const norm=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const stop=new Set(['raconte','moi','comment','quand','pourquoi','dans','avec','pour','tout','cette','etait','avais','nous','vous','mais','plus']);
+const toks=t=>norm(t).split(/[^a-z0-9]+/).filter(w=>w.length>3&&!stop.has(w)).map(w=>w.slice(0,5));
+function answer(q){
+  const qt=new Set(toks(q));
+  const sc=D.mem.map(m=>{const mt=new Set(toks(m.title+' '+m.people+' '+m.body));let n=0;qt.forEach(w=>{if(mt.has(w))n++});return{m,n}}).filter(s=>s.n>0).sort((a,b)=>b.n-a.n);
+  if(sc.length&&sc[0].n>=2)return{m:sc[0].m,k:'🟢 Souvenir authentique',h:`<div class="q">${esc(sc[0].m.title)}</div><p>${esc(sc[0].m.body)}</p>`};
+  if(sc.length)return{m:sc[0].m,k:'🟠 Reconstruction probable',h:'<p>Je n\'ai pas de souvenir exact sur ce point, mais ceci s\'en approche :</p>'+sc.slice(0,2).map(s=>`<p><i>${esc(s.m.title)}</i> : ${esc(s.m.body.slice(0,200))}${s.m.body.length>200?'…':''}</p>`).join('')};
+  if(D.mem.length)return{k:'🟠 Reconstruction probable',h:'<p>Je ne trouve pas de souvenir lié à cette question. Voici ceux que j\'ai :</p><ul>'+D.mem.slice(0,6).map(m=>`<li>${esc(m.title)}</li>`).join('')+'</ul><p>Demande-m\'en un par son titre.</p>'};
+  return{k:'🔵 Réponse simulée',h:'<p>Je n\'ai encore aucun souvenir enregistré. Ajoute-en dans l\'onglet Souvenirs.</p>'}}
+function ask(){
+  const q=$('#q').value.trim();if(!q)return;const c=$('#chat');
+  c.insertAdjacentHTML('beforeend',`<div class="msg me">${esc(q)}</div>`);const a=answer(q);
+  c.insertAdjacentHTML('beforeend',`<div class="msg echo"><div class="tag">${a.k}</div>${a.h}<div class="media"></div></div>`);
+  showMedia(c.lastElementChild.querySelector('.media'),a.m&&a.m.media);$('#q').value=''}
+$('#ask').onclick=ask;$('#q').onkeydown=e=>{if(e.key==='Enter')ask()};
+
+if(S&&S.a)enter();
+</script>
+</body>
+</html>
