@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ÉCHO — Une mémoire qui reste</title>
+<style>
+:root{--bg:#070b12;--panel:#0d1420;--panel2:#111b29;--text:#f5f1e8;--muted:#9ca8b8;--gold:#d8b978;--line:#243246;--blue:#8db9e8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% -10%,#18273a 0,#070b12 42%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+nav{position:sticky;top:0;z-index:10;background:rgba(7,11,18,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:Georgia,serif;letter-spacing:.22em;font-size:20px}.navlinks{display:flex;gap:18px}.navlinks a{color:var(--muted);text-decoration:none;font-size:13px}.navlinks a:hover{color:var(--text)}
+main{max-width:1100px;margin:auto;padding:0 22px}.hero{text-align:center;padding:90px 0 75px;max-width:850px;margin:auto}.eyebrow{color:var(--gold);letter-spacing:.22em;text-transform:uppercase;font-size:11px}.hero h1{font:normal clamp(44px,8vw,86px)/.98 Georgia,serif;margin:20px 0}.hero p{color:var(--muted);font-size:18px;line-height:1.7;max-width:650px;margin:0 auto 32px}.btn{display:inline-block;padding:14px 22px;border-radius:999px;background:var(--gold);color:#16130c;text-decoration:none;font-weight:700;margin:5px}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}
+.section{padding:55px 0}.section h2{font:normal 38px Georgia,serif;margin:0 0 10px}.section>p{color:var(--muted);margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:linear-gradient(145deg,rgba(17,27,41,.95),rgba(10,16,25,.95));border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.22)}.card h3{margin:0 0 9px;font:normal 24px Georgia,serif}.card p{color:var(--muted);line-height:1.6}.icon{font-size:26px;margin-bottom:22px}
+.panel{background:linear-gradient(145deg,#111b29,#0a111b);border:1px solid var(--line);border-radius:28px;padding:28px;margin:18px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{font-size:12px;color:var(--muted)}input,textarea{width:100%;margin-top:7px;background:#080e17;border:1px solid #26364b;border-radius:13px;padding:14px;color:var(--text);outline:none}textarea{min-height:120px;resize:vertical}.wide{grid-column:1/-1}
+.badge{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:11px;margin:4px;background:#132033;color:#b8c9dc}.green{color:#9dd6a4}.orange{color:#e9b67c}.blue{color:#9fc9ee}
+.prices{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.price strong{font-size:30px;font-family:Georgia,serif}.price small{color:var(--muted)}.price ul{padding-left:18px;color:var(--muted);line-height:1.8}
+.chat{max-width:800px;margin:auto}.bubble{background:#111c2b;border:1px solid var(--line);padding:18px;border-radius:20px;margin:10px 0}.bubble.you{background:#172536;margin-left:15%}
+footer{text-align:center;color:#667386;padding:65px 20px;border-top:1px solid rgba(255,255,255,.06);margin-top:40px}
+@media(max-width:760px){.navlinks{display:none}.grid,.prices,.formgrid{grid-template-columns:1fr}.hero{padding-top:65px}.hero p{font-size:16px}.section{padding:38px 0}.bubble.you{margin-left:5%}}
+</style>
+</head>
+<body>
+<nav><div class="logo">ÉCHO</div><div class="navlinks"><a href="#souvenirs">Souvenirs</a><a href="#capsules">Capsules</a><a href="#parler">ÉCHO</a><a href="#offres">Offres</a></div></nav>
+
+<main>
+<section class="hero">
+<div class="eyebrow">Votre mémoire. Votre voix. Votre histoire.</div>
+<h1>Une présence qui reste.</h1>
+<p>ÉCHO permet de conserver les souvenirs, les voix, les images et les messages d'une personne pour transmettre une trace intime aux générations futures.</p>
+<a class="btn" href="#souvenirs">Commencer</a><a class="btn secondary" href="#parler">Découvrir ÉCHO</a>
+</section>
+
+<section class="section">
+<div class="grid">
+<div class="card"><div class="icon">◌</div><h3>Vos souvenirs</h3><p>Racontez les moments qui comptent. Ajoutez photos, vidéos, musique et votre propre voix.</p></div>
+<div class="card"><div class="icon">⌁</div><h3>Votre voix</h3><p>Une mémoire ne se résume pas à des mots. Préservez votre façon de parler, vos anecdotes et vos expressions.</p></div>
+<div class="card"><div class="icon">∞</div><h3>Pour ceux que vous aimez</h3><p>Une trace personnelle à transmettre, aujourd'hui ou dans plusieurs années.</p></div>
+</div>
+</section>
+
+<section class="section" id="souvenirs"><h2>Mes souvenirs</h2><p>Construisez peu à peu votre mémoire personnelle.</p>
+<div class="panel"><div class="formgrid">
+<div><label>Titre</label><input placeholder="Ma rencontre avec Maman"></div>
+<div><label>Personnes concernées</label><input placeholder="Maman, Lina"></div>
+<div class="wide"><label>Mon récit</label><textarea placeholder="Racontez ce souvenir avec vos mots..."></textarea></div>
+<div><label>Photos, vidéos, musique</label><input type="file"></div>
+<div><label>Voix</label><input type="file" accept="audio/*"></div>
+</div><br><a class="btn" href="#">Enregistrer le souvenir</a></div></section>
+
+<section class="section" id="capsules"><h2>Capsules</h2><p>Un message scellé jusqu'à une date choisie.</p>
+<div class="panel"><div class="formgrid"><div><label>Pour</label><input placeholder="Une personne aimée"></div><div><label>S'ouvre le</label><input type="date"></div><div class="wide"><label>Message</label><textarea placeholder="Un message à découvrir plus tard..."></textarea></div></div><br><a class="btn" href="#">Sceller la capsule</a></div></section>
+
+<section class="section" id="parler"><h2>Parler à ÉCHO</h2><p>ÉCHO répond à partir des souvenirs enregistrés, sans prétendre savoir ce qui n'a jamais été transmis.</p>
+<div class="chat"><div class="bubble"><span class="badge green">Souvenir authentique</span><br>« Je me souviens de cette journée... »</div><div class="bubble you">Raconte-moi ma rencontre avec Maman.</div><div class="bubble"><span class="badge blue">Réponse basée sur vos souvenirs</span><br>Voici ce que vous avez choisi de conserver à propos de cette rencontre…</div></div></section>
+
+<section class="section" id="offres"><h2>Choisir son ÉCHO</h2><p>Des formules simples, pensées pour une mémoire qui peut durer.</p>
+<div class="prices">
+<div class="card price"><h3>Découverte</h3><strong>0 €</strong><small> / toujours</small><ul><li>10 souvenirs</li><li>1 capsule</li></ul><a class="btn secondary" href="#">Commencer</a></div>
+<div class="card price"><h3>Essentiel</h3><strong>7,90 €</strong><small> / mois</small><ul><li>Souvenirs illimités</li><li>Capsules illimitées</li><li>3 proches</li></ul><a class="btn" href="#">Choisir</a></div>
+<div class="card price"><h3>Famille</h3><strong>14,90 €</strong><small> / mois</small><ul><li>5 mémoires</li><li>10 proches</li><li>Export</li></ul><a class="btn secondary" href="#">Choisir</a></div>
+<div class="card price"><h3>Pérennité</h3><strong>249 €</strong><small> / une fois</small><ul><li>Conservation 25 ans</li><li>Transmission</li><li>Export</li></ul><a class="btn secondary" href="#">Découvrir</a></div>
+</div></section>
+</main>
+<footer>ÉCHO · Une mémoire qui reste<br><small>Prototype visuel — les fonctions de connexion, stockage et paiement doivent être reliées à votre backend.</small></footer>
+</body>
+</html>
